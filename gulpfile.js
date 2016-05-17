@@ -18,6 +18,16 @@ gulp.task('vet', function(){
 		.pipe($.eslint.failAfterError());
 });
 
+gulp.task('styles', function() {
+	log('Compiling Sass --> CSS');
+
+	return gulp
+		.src(config.sass)
+		.pipe($.sass().on('error', $.sass.logError))
+		.pipe(gulp.dest(config.temp));
+});
+
+
 /* Helper */
 
 function log(msg) {
