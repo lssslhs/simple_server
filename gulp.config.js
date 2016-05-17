@@ -1,6 +1,6 @@
 module.exports = function() {
 	var client = './src/client/',
-		temp = './.tmp';
+		temp = './.tmp/';
 
 	var config = {
 

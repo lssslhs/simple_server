@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var args = require('yargs').argv;
+var del = require('del');
 var config = require('./gulp.config')();
 
 var $ = require('gulp-load-plugins')({lazy: true});
@@ -18,7 +19,7 @@ gulp.task('vet', function(){
 		.pipe($.eslint.failAfterError());
 });
 
-gulp.task('styles', function() {
+gulp.task('styles', ['clean-styles'], function() {
 	log('Compiling Sass --> CSS');
 
 	return gulp
@@ -27,8 +28,21 @@ gulp.task('styles', function() {
 		.pipe(gulp.dest(config.temp));
 });
 
+gulp.task('clean-styles', function(){
+	return clean(config.temp + '**/*.css');
+});
+
+gulp.task('sass-watcher', function(){
+	gulp.watch([config.sass], ['styles']);
+}) 
+
 
 /* Helper */
+
+function clean(path) {
+	log('Cleaning: ' + $.util.colors.blue(path));
+	return del(path);
+}
 
 function log(msg) {
 	if (typeof(msg) === 'object') {
